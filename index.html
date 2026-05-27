@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>โรงเรียนมารีวิทย์ — แผนกบัญชี</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green-dark:#0a5c3e;--green-main:#1a7a55;--green-light:#2da068;--green-pale:#e8f5ef;
+  --gold:#c9a227;--gold-light:#f5e6b8;--white:#fff;
+  --gray-50:#f9fafb;--gray-100:#f3f4f6;--gray-200:#e5e7eb;--gray-400:#9ca3af;--gray-600:#4b5563;--gray-700:#374151;--gray-800:#1f2937;
+  --red:#ef4444;--orange:#f97316;--blue:#3b82f6;--purple:#8b5cf6;
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.08);--shadow-md:0 4px 12px rgba(0,0,0,0.1);--shadow-lg:0 8px 24px rgba(0,0,0,0.14);
+  --radius:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Sarabun','Noto Sans Thai',sans-serif;background:var(--gray-50);color:var(--gray-800);font-size:15px;line-height:1.6;}
+
+/* HEADER */
+header{background:linear-gradient(135deg,var(--green-dark) 0%,var(--green-main) 60%,var(--green-light) 100%);position:relative;overflow:hidden;}
+header::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(255,255,255,0.05);border-radius:50%;}
+.header-inner{max-width:1200px;margin:0 auto;padding:22px 24px;display:flex;align-items:center;gap:18px;position:relative;z-index:1;}
+.header-logo{width:58px;height:58px;background:var(--gold);border-radius:50%;border:3px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:var(--green-dark);flex-shrink:0;}
+.header-text h1{font-size:24px;font-weight:700;color:#fff;}
+.header-text p{font-size:13px;color:rgba(255,255,255,0.75);margin-top:2px;}
+
+/* MAIN TABS NAV */
+.main-nav{background:var(--green-dark);border-top:1px solid rgba(255,255,255,0.1);}
+.main-nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;gap:2px;overflow-x:auto;}
+.main-nav-inner button{display:inline-flex;align-items:center;gap:6px;padding:12px 16px;color:rgba(255,255,255,0.75);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-size:14px;font-weight:500;white-space:nowrap;font-family:inherit;transition:all 0.2s;}
+.main-nav-inner button:hover,.main-nav-inner button.active{color:#fff;border-bottom-color:var(--gold);}
+
+/* PAGE SECTIONS */
+.page{display:none;max-width:1200px;margin:24px auto;padding:0 24px;}
+.page.active{display:block;}
+
+/* TWO-COL LAYOUT */
+.two-col{display:grid;grid-template-columns:280px 1fr;gap:22px;}
+.sidebar{display:flex;flex-direction:column;gap:18px;}
+.content{display:flex;flex-direction:column;gap:18px;}
+
+/* CARDS */
+.card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);}
+.card-header{background:var(--green-main);color:#fff;padding:11px 16px;font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px;border-radius:var(--radius) var(--radius) 0 0;}
+.card-body{padding:16px;}
+
+/* SECTION TITLE */
+.section-title{font-size:16px;font-weight:700;color:var(--green-dark);margin-bottom:14px;display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:2px solid var(--green-pale);}
+.section-title::before{content:'';width:4px;height:20px;background:var(--green-main);border-radius:2px;flex-shrink:0;}
+
+/* TODAY BAR */
+.today-bar{background:linear-gradient(135deg,var(--green-main),var(--green-light));border-radius:var(--radius);padding:16px 20px;color:white;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.today-bar .date-big{font-size:20px;font-weight:700;}
+.today-bar .date-sub{font-size:13px;opacity:0.85;}
+.today-bar .time-display{font-size:26px;font-weight:300;letter-spacing:2px;}
+
+/* CALENDAR */
+.cal-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.cal-nav button{background:none;border:1px solid var(--gray-200);border-radius:6px;width:26px;height:26px;cursor:pointer;font-size:13px;color:var(--gray-600);display:flex;align-items:center;justify-content:center;}
+.cal-nav button:hover{background:var(--gray-100);}
+.cal-title{font-weight:600;font-size:13px;color:var(--gray-800);}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;}
+.cal-day-name{text-align:center;font-size:10px;font-weight:600;color:var(--gray-400);padding:3px 0;}
+.cal-cell{text-align:center;padding:4px 2px;font-size:11px;color:var(--gray-600);border-radius:5px;cursor:pointer;}
+.cal-cell:hover{background:var(--green-pale);color:var(--green-dark);}
+.cal-cell.today{background:var(--green-main);color:#fff;font-weight:600;}
+.cal-cell.other-month{color:var(--gray-200);cursor:default;}
+.cal-cell.other-month:hover{background:none;}
+.cal-cell.has-event::after{content:'';display:block;width:3px;height:3px;background:var(--gold);border-radius:50%;margin:1px auto 0;}
+
+/* QUICK LINKS */
+.link-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;text-decoration:none;color:var(--gray-700);font-size:13px;font-weight:500;border:1px solid var(--gray-200);margin-bottom:7px;transition:all 0.15s;}
+.link-item:last-child{margin-bottom:0;}
+.link-item:hover{background:var(--green-pale);border-color:var(--green-light);color:var(--green-dark);}
+.link-icon{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.link-icon.green{background:var(--green-pale);}
+.link-icon.gold{background:var(--gold-light);}
+.link-icon.blue{background:#e8f0fe;}
+
+/* ANNOUNCEMENT */
+.announcement{border-left:4px solid var(--gold);background:var(--gold-light);border-radius:0 8px 8px 0;padding:11px 14px;font-size:13px;color:#7a5c00;display:flex;gap:10px;align-items:flex-start;}
+
+/* SHEETS */
+.sheets-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;}
+.sheet-card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;transition:all 0.2s;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;cursor:pointer;}
+.sheet-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--green-main);}
+.sheet-card:hover{box-shadow:var(--shadow-md);border-color:var(--green-light);transform:translateY(-2px);}
+.sheet-card .sheet-icon{width:34px;height:34px;background:var(--green-pale);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.sheet-card .sheet-name{font-weight:600;font-size:13px;color:var(--gray-800);}
+.sheet-card .sheet-desc{font-size:11px;color:var(--gray-400);}
+.sheet-card .sheet-link-btn{font-size:11px;color:var(--green-main);font-weight:500;margin-top:auto;}
+
+/* ===== TASK TRACKING ===== */
+.branch-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+.branch-tab{padding:7px 14px;border-radius:20px;border:1px solid var(--gray-200);background:var(--white);cursor:pointer;font-size:13px;font-weight:500;color:var(--gray-600);font-family:inherit;transition:all 0.15s;}
+.branch-tab:hover{border-color:var(--green-main);color:var(--green-main);}
+.branch-tab.active{background:var(--green-main);color:#fff;border-color:var(--green-main);}
+
+.task-toolbar{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap;}
+.task-toolbar input{flex:1;min-width:180px;padding:8px 12px;border:1px solid var(--gray-200);border-radius:8px;font-size:13px;font-family:inherit;outline:none;}
+.task-toolbar input:focus{border-color:var(--green-main);}
+.btn-green{padding:8px 16px;background:var(--green-main);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit;white-space:nowrap;transition:background 0.15s;}
+.btn-green:hover{background:var(--green-dark);}
+
+.task-table{width:100%;border-collapse:collapse;}
+.task-table th{background:var(--gray-50);font-size:12px;font-weight:600;color:var(--gray-600);padding:9px 12px;text-align:left;border-bottom:1px solid var(--gray-200);}
+.task-table td{padding:10px 12px;font-size:13px;border-bottom:1px solid var(--gray-100);vertical-align:middle;}
+.task-table tr:hover td{background:var(--gray-50);}
+.task-table tr.done td{opacity:0.55;}
+.task-table tr.done .task-name-cell{text-decoration:line-through;}
+
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;}
+.badge-todo{background:#fee2e2;color:#991b1b;}
+.badge-doing{background:#fef3c7;color:#92400e;}
+.badge-done{background:#d1fae5;color:#065f46;}
+.badge-review{background:#ede9fe;color:#5b21b6;}
+
+.priority-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;}
+.p-high{background:var(--red);}
+.p-mid{background:var(--orange);}
+.p-low{background:var(--blue);}
+
+.task-action-btn{background:none;border:none;cursor:pointer;font-size:14px;padding:2px 5px;border-radius:4px;opacity:0.6;transition:opacity 0.15s;}
+.task-action-btn:hover{opacity:1;background:var(--gray-100);}
+
+.task-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+.stat-box{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:12px 14px;text-align:center;}
+.stat-num{font-size:22px;font-weight:700;color:var(--green-dark);}
+.stat-lbl{font-size:11px;color:var(--gray-400);margin-top:2px;}
+
+/* ===== STAFF ===== */
+.staff-grid-big{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;}
+.staff-card-big{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:20px 14px;text-align:center;transition:all 0.2s;position:relative;}
+.staff-card-big:hover{box-shadow:var(--shadow-md);border-color:var(--green-light);}
+.staff-avatar-big{width:80px;height:80px;border-radius:50%;margin:0 auto 12px;border:3px solid var(--green-pale);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:var(--green-main);background:var(--green-pale);overflow:hidden;cursor:pointer;}
+.staff-avatar-big img{width:100%;height:100%;object-fit:cover;}
+.staff-name-big{font-size:14px;font-weight:700;color:var(--gray-800);}
+.staff-role-big{font-size:12px;color:var(--gray-400);margin-top:3px;}
+.staff-tel-big{font-size:12px;color:var(--green-main);margin-top:5px;font-weight:500;}
+.staff-edit-btn{position:absolute;top:8px;right:8px;background:none;border:none;cursor:pointer;font-size:14px;opacity:0.4;transition:opacity 0.15s;}
+.staff-edit-btn:hover{opacity:1;}
+
+/* ===== MODALS ===== */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;}
+.overlay.open{display:flex;}
+.modal{background:var(--white);border-radius:14px;padding:26px;width:480px;max-width:92vw;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);}
+.modal h3{font-size:17px;font-weight:700;margin-bottom:4px;color:var(--green-dark);}
+.modal .sub{font-size:13px;color:var(--gray-400);margin-bottom:18px;}
+.modal label{font-size:12px;font-weight:600;color:var(--gray-600);display:block;margin-bottom:5px;}
+.modal input,.modal select,.modal textarea{width:100%;padding:9px 12px;border:1px solid var(--gray-200);border-radius:8px;font-size:13px;font-family:inherit;margin-bottom:13px;outline:none;transition:border 0.15s;}
+.modal input:focus,.modal select:focus,.modal textarea:focus{border-color:var(--green-main);box-shadow:0 0 0 3px rgba(26,122,85,0.1);}
+.modal textarea{height:70px;resize:vertical;}
+.modal-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:6px;}
+.btn-cancel{padding:8px 18px;border:1px solid var(--gray-200);border-radius:8px;background:none;cursor:pointer;font-size:13px;color:var(--gray-600);font-family:inherit;}
+.btn-save{padding:8px 18px;border:none;border-radius:8px;background:var(--green-main);color:#fff;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit;transition:background 0.15s;}
+.btn-save:hover{background:var(--green-dark);}
+.btn-danger{padding:8px 18px;border:none;border-radius:8px;background:#ef4444;color:#fff;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit;}
+
+/* Avatar upload area */
+.avatar-upload{width:90px;height:90px;border-radius:50%;border:2px dashed var(--gray-200);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;margin:0 auto 14px;overflow:hidden;transition:border-color 0.15s;font-size:11px;color:var(--gray-400);text-align:center;background:var(--gray-50);}
+.avatar-upload:hover{border-color:var(--green-main);}
+.avatar-upload img{width:100%;height:100%;object-fit:cover;}
+
+/* BRANCH PAGE */
+.branch-page-tabs{display:flex;gap:0;border-bottom:2px solid var(--gray-200);margin-bottom:20px;overflow-x:auto;}
+.branch-page-tab{padding:10px 20px;border:none;background:none;cursor:pointer;font-size:14px;font-weight:500;color:var(--gray-400);font-family:inherit;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all 0.15s;}
+.branch-page-tab:hover{color:var(--green-main);}
+.branch-page-tab.active{color:var(--green-dark);border-bottom-color:var(--green-main);font-weight:700;}
+.branch-content{display:none;}
+.branch-content.active{display:block;}
+
+/* Progress bar */
+.progress-wrap{background:var(--gray-100);border-radius:99px;height:8px;margin-top:6px;}
+.progress-bar{background:var(--green-main);height:8px;border-radius:99px;transition:width 0.4s;}
+
+/* FOOTER */
+footer{background:var(--green-dark);color:rgba(255,255,255,0.7);text-align:center;padding:16px 24px;font-size:13px;margin-top:40px;}
+footer strong{color:#fff;}
+
+@media(max-width:768px){.two-col{grid-template-columns:1fr;}.task-stats{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-logo">M</div>
+    <div class="header-text">
+      <h1>โรงเรียนมารีวิทย์ — Maryvit School</h1>
+      <p>Accounting Department — ระบบจัดการเอกสารและติดตามงาน</p>
+    </div>
+  </div>
+</header>
+
+<div class="main-nav">
+  <div class="main-nav-inner">
+    <button class="active" onclick="showPage('home',this)">🏠 หน้าหลัก</button>
+    <button onclick="showPage('tracking',this)">📋 Tracking งาน</button>
+    <button onclick="showPage('staff',this)">👥 ทีมงาน</button>
+    <button onclick="showPage('branches',this)">🏢 สาขา</button>
+    <button onclick="showPage('sheets',this)">📊 Google Sheets</button>
+    <button onclick="showPage('coop',this)">🏪 ร้านค้าสหกรณ์</button>
+  </div>
+</div>
+
+<!-- ========== HOME PAGE ========== -->
+<div class="page active" id="page-home">
+  <div class="two-col">
+    <aside class="sidebar">
+      <!-- Calendar -->
+      <div class="card">
+        <div class="card-header">📅 ปฏิทินประจำเดือน</div>
+        <div class="card-body">
+          <div class="cal-nav">
+            <button id="prevMonth">‹</button>
+            <span class="cal-title" id="calTitle"></span>
+            <button id="nextMonth">›</button>
+          </div>
+          <div class="cal-grid" id="calGrid">
+            <div class="cal-day-name">อา</div><div class="cal-day-name">จ</div><div class="cal-day-name">อ</div><div class="cal-day-name">พ</div><div class="cal-day-name">พฤ</div><div class="cal-day-name">ศ</div><div class="cal-day-name">ส</div>
+          </div>
+        </div>
+      </div>
+
+
+    </aside>
+    <main class="content">
+      <div class="today-bar">
+        <div><div class="date-big" id="todayDate">-</div><div class="date-sub" id="todayTH"></div></div>
+        <div class="time-display" id="clockDisplay">00:00:00</div>
+      </div>
+      <!-- Sheets quick -->
+      <div class="card" style="padding:18px;">
+        <div class="section-title">📊 ไฟล์งาน Google Sheets</div>
+        <div class="sheets-grid" id="sheetsGridHome"></div>
+        <button onclick="showPage('sheets',document.querySelector('[onclick*=sheets]'))" style="margin-top:12px;font-size:12px;color:var(--green-main);background:none;border:none;cursor:pointer;font-family:inherit;">→ จัดการไฟล์ทั้งหมด</button>
+      </div>
+      <!-- Task summary -->
+      <div class="card" style="padding:18px;">
+        <div class="section-title">📋 สรุปงานวันนี้</div>
+        <div class="task-stats" id="homeTaskStats"></div>
+        <button onclick="showPage('tracking',document.querySelector('[onclick*=tracking]'))" style="font-size:12px;color:var(--green-main);background:none;border:none;cursor:pointer;font-family:inherit;">→ ดู Tracking ทั้งหมด</button>
+      </div>
+      <!-- Certificate & Portfolio -->
+      <div class="card" style="padding:18px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+          <div class="section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0;">🏆 Certificate & ผลงาน</div>
+          <button class="btn-green" onclick="openCertModal()">＋ เพิ่ม</button>
+        </div>
+        <div id="certGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;"></div>
+        <div id="certEmpty" style="text-align:center;padding:30px;color:var(--gray-400);font-size:13px;">ยังไม่มี Certificate หรือผลงาน — กด ＋ เพิ่ม</div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ========== TRACKING PAGE ========== -->
+<div class="page" id="page-tracking">
+  <div class="card" style="padding:20px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+      <div class="section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0;">📋 Tracking ติดตามงานในทีม</div>
+      <button class="btn-green" onclick="openTaskModal()">＋ เพิ่มงาน</button>
+    </div>
+
+    <!-- Branch filter tabs -->
+    <div class="branch-tabs" id="taskBranchTabs"></div>
+
+    <!-- Stats -->
+    <div class="task-stats" id="trackingStats"></div>
+
+    <!-- Toolbar -->
+    <div class="task-toolbar">
+      <input type="text" id="taskSearch" placeholder="🔍 ค้นหางาน..." oninput="renderTasks()">
+      <select id="taskFilterStatus" onchange="renderTasks()" style="padding:8px 10px;border:1px solid var(--gray-200);border-radius:8px;font-size:13px;font-family:inherit;outline:none;">
+        <option value="">สถานะทั้งหมด</option>
+        <option value="todo">ยังไม่เริ่ม</option>
+        <option value="doing">กำลังทำ</option>
+        <option value="review">รอตรวจ</option>
+        <option value="done">เสร็จแล้ว</option>
+      </select>
+      <select id="taskFilterAssign" onchange="renderTasks()" style="padding:8px 10px;border:1px solid var(--gray-200);border-radius:8px;font-size:13px;font-family:inherit;outline:none;">
+        <option value="">ผู้รับผิดชอบทั้งหมด</option>
+      </select>
+    </div>
+
+    <!-- Table -->
+    <div style="overflow-x:auto;">
+      <table class="task-table">
+        <thead>
+          <tr>
+            <th style="width:32px;"></th>
+            <th>ชื่องาน</th>
+            <th>สาขา</th>
+            <th>ผู้รับผิดชอบ</th>
+            <th>ความเร่งด่วน</th>
+            <th>กำหนดส่ง</th>
+            <th>สถานะ</th>
+            <th style="width:70px;">จัดการ</th>
+          </tr>
+        </thead>
+        <tbody id="taskTableBody"></tbody>
+      </table>
+    </div>
+    <div id="taskEmpty" style="text-align:center;padding:40px;color:var(--gray-400);font-size:14px;display:none;">ไม่พบงานที่ค้นหา</div>
+  </div>
+</div>
+
+<!-- ========== STAFF PAGE ========== -->
+<div class="page" id="page-staff">
+  <div class="card" style="padding:20px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+      <div class="section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0;">👥 ทีมงานแผนกบัญชี</div>
+      <button class="btn-green" onclick="openStaffModal()">＋ เพิ่มพนักงาน</button>
+    </div>
+    <div class="staff-grid-big" id="staffGrid"></div>
+  </div>
+</div>
+
+<!-- ========== BRANCHES PAGE ========== -->
+<div class="page" id="page-branches">
+  <div class="card" style="padding:20px;">
+    <div class="section-title">🏢 ข้อมูลแยกตามสาขา</div>
+    <div class="branch-page-tabs" id="branchPageTabs"></div>
+    <div id="branchPageContents"></div>
+  </div>
+</div>
+
+
+<!-- ========== COOP PAGE ========== -->
+<div class="page" id="page-coop">
+  <!-- 3D Isometric Animation -->
+  <div class="card" style="padding:20px;margin-bottom:20px;overflow:hidden;">
+    <div class="section-title">🏫 ร้านค้าสหกรณ์โรงเรียนมารีวิทย์</div>
+    <div style="position:relative;width:100%;border-radius:12px;overflow:hidden;background:#000;">
+      <iframe 
+  src="https://drive.google.com/file/d/1ypIrYyCGY8FN5Z0wswmPTEEiAmJGs46u/preview"
+  style="width:100%;height:420px;border:none;display:block;"
+  allow="autoplay"
+  allowfullscreen>
+</iframe>
+      <div style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.85);padding:8px 20px;border-radius:20px;font-size:13px;font-weight:600;color:var(--green-dark);backdrop-filter:blur(4px);white-space:nowrap;">🏪 Maryvit School Cooperative Store</div>
+    </div>
+  </div>
+
+  <!-- Branch Coop Sheets -->
+  <div class="card" style="padding:20px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+      <div class="section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0;">📊 ข้อมูลบัญชีสต็อกขนมแยกสาขา</div>
+    </div>
+    <div style="font-size:13px;color:var(--gray-400);margin-bottom:16px;">คลิก ✏️ เพื่อแนบลิงก์ Google Sheets · คลิกการ์ดเพื่อเปิดไฟล์</div>
+    <div id="coopGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;"></div>
+  </div>
+</div>
+
+<!-- ========== SHEETS PAGE ========== -->
+<div class="page" id="page-sheets">
+  <div class="card" style="padding:20px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+      <div class="section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0;">📊 งานแผนกบัญชี — Google Sheets</div>
+      <button class="btn-green" onclick="addSheet()">＋ เพิ่มไฟล์</button>
+    </div>
+    <div style="font-size:13px;color:var(--gray-400);margin-bottom:14px;">คลิกที่การ์ดเพื่อเปิดไฟล์ · กด ✏️ เพื่อแก้ไขลิงก์</div>
+    <div class="sheets-grid" id="sheetsGrid"></div>
+  </div>
+</div>
+
+<!-- ========== MODALS ========== -->
+
+<!-- Lightbox -->
+<div id="lightboxOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:500;align-items:center;justify-content:center;flex-direction:column;padding:20px;" onclick="closeLightbox()">
+  <div style="position:absolute;top:20px;right:24px;color:#fff;font-size:28px;cursor:pointer;line-height:1;" onclick="closeLightbox()">✕</div>
+  <div id="lightboxTitle" style="color:#fff;font-size:15px;font-weight:600;margin-bottom:16px;text-align:center;"></div>
+  <img id="lightboxImg" src="" style="max-width:90vw;max-height:80vh;border-radius:12px;object-fit:contain;box-shadow:0 8px 40px rgba(0,0,0,0.5);" onclick="event.stopPropagation()">
+  <div style="color:rgba(255,255,255,0.5);font-size:12px;margin-top:12px;">คลิกนอกรูปเพื่อปิด</div>
+</div>
+
+<!-- Certificate Modal -->
+<div class="overlay" id="certOverlay">
+  <div class="modal">
+    <h3 id="certModalTitle">เพิ่ม Certificate / ผลงาน</h3>
+    <p class="sub">กรอกข้อมูลและเลือกวิธีแนบรูปภาพ</p>
+    <label>ชื่อ Certificate / ผลงาน *</label>
+    <input type="text" id="cName" placeholder="เช่น ใบรับรอง CPD ปี 2567">
+    <label>ประเภท</label>
+    <select id="cType">
+      <option value="cert">🏆 Certificate</option>
+      <option value="award">🥇 รางวัล</option>
+      <option value="work">📁 ผลงาน</option>
+      <option value="training">📚 อบรม</option>
+    </select>
+    <label>ชื่อพนักงาน</label>
+    <select id="cStaff"></select>
+    <label>ปี พ.ศ.</label>
+    <input type="text" id="cYear" placeholder="เช่น 2567">
+
+    <label>รูปภาพ / เอกสาร</label>
+    <div style="display:flex;gap:8px;margin-bottom:10px;">
+      <button type="button" id="imgTabUpload" onclick="switchImgTab('upload')" style="flex:1;padding:8px;border-radius:8px;border:2px solid var(--green-main);background:var(--green-main);color:#fff;cursor:pointer;font-size:13px;font-family:inherit;font-weight:600;">📁 อัปโหลดจากเครื่อง</button>
+      <button type="button" id="imgTabUrl" onclick="switchImgTab('url')" style="flex:1;padding:8px;border-radius:8px;border:2px solid var(--gray-200);background:#fff;color:var(--gray-600);cursor:pointer;font-size:13px;font-family:inherit;font-weight:600;">🔗 ลิงก์ URL / Drive</button>
+    </div>
+
+    <div id="imgPanelUpload">
+      <div id="certImgUploadArea" onclick="document.getElementById('certImgInput').click()" style="border:2px dashed var(--gray-200);border-radius:10px;padding:16px;text-align:center;cursor:pointer;margin-bottom:10px;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--green-main)'" onmouseout="this.style.borderColor='var(--gray-200)'">
+        <div id="certImgPreviewWrap" style="display:none;"><img id="certImgPreview" style="max-height:160px;max-width:100%;border-radius:8px;"></div>
+        <div id="certImgPlaceholder" style="color:var(--gray-400);font-size:13px;">📷 คลิกเพื่อเลือกรูปภาพ<br><span style="font-size:11px;">JPG, PNG ขนาดไม่เกิน 1MB</span></div>
+      </div>
+      <input type="file" id="certImgInput" accept="image/*" style="display:none;" onchange="previewCertImg(this)">
+      <button type="button" id="certImgClearBtn" onclick="clearCertImg()" style="display:none;font-size:12px;color:var(--gray-400);background:none;border:none;cursor:pointer;margin-bottom:10px;">✕ ลบรูป</button>
+    </div>
+
+    <div id="imgPanelUrl" style="display:none;">
+      <input type="url" id="cUrl" placeholder="https://drive.google.com/file/d/... หรือ URL รูปภาพ" style="margin-bottom:4px;" oninput="previewUrlImg(this.value)">
+      <div style="font-size:11px;color:var(--gray-400);margin-bottom:10px;">วิธีรับลิงก์ Drive: คลิกขวาไฟล์ → Share → Copy link</div>
+      <div id="cUrlPreview" style="display:none;margin-bottom:10px;"><img id="cUrlPreviewImg" style="max-height:140px;border-radius:8px;border:1px solid var(--gray-200);" onerror="this.parentElement.style.display='none'"></div>
+    </div>
+
+    <label>รายละเอียด</label>
+    <textarea id="cDesc" placeholder="คำอธิบายเพิ่มเติม..."></textarea>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeOverlay('certOverlay')">ยกเลิก</button>
+      <button class="btn-danger" id="certDeleteBtn" onclick="deleteCert()" style="display:none;">🗑 ลบ</button>
+      <button class="btn-save" onclick="saveCert()">💾 บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<!-- Coop Modal -->
+<div class="overlay" id="coopOverlay">
+  <div class="modal">
+    <h3 id="coopModalTitle">ตั้งค่าลิงก์สาขา</h3>
+    <p class="sub">แนบลิงก์ Google Sheets สต็อกขนมของสาขานี้</p>
+    <label>ลิงก์ Google Sheets รหัสขนม/ยอดคงเหลือ</label>
+    <input type="url" id="coopUrl" placeholder="https://docs.google.com/spreadsheets/d/...">
+    <label>หมายเหตุ (ไม่บังคับ)</label>
+    <input type="text" id="coopNote" placeholder="เช่น อัปเดตทุกวันจันทร์">
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeOverlay('coopOverlay')">ยกเลิก</button>
+      <button class="btn-save" onclick="saveCoopLink()">💾 บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<!-- Task Modal -->
+<div class="overlay" id="taskOverlay">
+  <div class="modal">
+    <h3 id="taskModalTitle">เพิ่มงานใหม่</h3>
+    <p class="sub">กรอกรายละเอียดงานที่ต้องการติดตาม</p>
+    <label>ชื่องาน *</label>
+    <input type="text" id="tName" placeholder="เช่น ส่งรายงานภาษีประจำเดือน">
+    <label>สาขา</label>
+    <select id="tBranch"></select>
+    <label>ผู้รับผิดชอบ</label>
+    <select id="tAssign"></select>
+    <label>ความเร่งด่วน</label>
+    <select id="tPriority">
+      <option value="high">🔴 สูง</option>
+      <option value="mid" selected>🟠 กลาง</option>
+      <option value="low">🔵 ต่ำ</option>
+    </select>
+    <label>กำหนดส่ง</label>
+    <input type="date" id="tDue">
+    <label>สถานะ</label>
+    <select id="tStatus">
+      <option value="todo">ยังไม่เริ่ม</option>
+      <option value="doing">กำลังทำ</option>
+      <option value="review">รอตรวจ</option>
+      <option value="done">เสร็จแล้ว</option>
+    </select>
+    <label>หมายเหตุ</label>
+    <textarea id="tNote" placeholder="รายละเอียดเพิ่มเติม..."></textarea>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeOverlay('taskOverlay')">ยกเลิก</button>
+      <button class="btn-danger" id="taskDeleteBtn" onclick="deleteTask()" style="display:none;">🗑 ลบ</button>
+      <button class="btn-save" onclick="saveTask()">💾 บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<!-- Staff Modal -->
+<div class="overlay" id="staffOverlay">
+  <div class="modal">
+    <h3 id="staffModalTitle">เพิ่มพนักงาน</h3>
+    <p class="sub">กรอกข้อมูลพนักงานแผนกบัญชี</p>
+    <div class="avatar-upload" id="avatarUpload" onclick="document.getElementById('avatarInput').click()">
+      <div id="avatarPreview">📷<br>อัปโหลดรูป</div>
+    </div>
+    <input type="file" id="avatarInput" accept="image/*" style="display:none;" onchange="previewAvatar(this)">
+    <label>ชื่อ-นามสกุล *</label>
+    <input type="text" id="sName" placeholder="เช่น สาริสา พิมพ์แสง (กบ)">
+    <label>ตำแหน่ง</label>
+    <input type="text" id="sRole" placeholder="เช่น Accounting Department Head">
+    <label>เบอร์โทรศัพท์</label>
+    <input type="text" id="sTel" placeholder="เช่น 081-761-2040">
+    <label>สาขา</label>
+    <select id="sBranch"></select>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeOverlay('staffOverlay')">ยกเลิก</button>
+      <button class="btn-danger" id="staffDeleteBtn" onclick="deleteStaff()" style="display:none;">🗑 ลบ</button>
+      <button class="btn-save" onclick="saveStaff()">💾 บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sheet Modal -->
+<div class="overlay" id="sheetOverlay">
+  <div class="modal">
+    <h3 id="sheetModalTitle">ตั้งค่าลิงก์ Google Sheets</h3>
+    <p class="sub">วางลิงก์ Google Sheets แล้วกดบันทึก</p>
+    <label>ชื่อไฟล์งาน *</label>
+    <input type="text" id="shName" placeholder="เช่น รายงานยอดขายประจำเดือน">
+    <label>ลิงก์ Google Sheets</label>
+    <input type="url" id="shUrl" placeholder="https://docs.google.com/spreadsheets/d/...">
+    <label>คำอธิบาย</label>
+    <input type="text" id="shDesc" placeholder="เช่น อัปเดตทุกวันศุกร์">
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeOverlay('sheetOverlay')">ยกเลิก</button>
+      <button class="btn-danger" id="sheetDeleteBtn" onclick="deleteSheet()" style="display:none;">🗑 ลบ</button>
+      <button class="btn-save" onclick="saveSheet()">💾 บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <strong>โรงเรียนมารีวิทย์ สำนักงานใหญ่ (ชลบุรี)</strong><br>
+  137/44 หมู่ที่ 2 ถ.สุขุมวิท เมืองพัทยา ตำบลนาเกลือ อำเภอบางละมุง ชลบุรี 20150
+</footer>
+
+<script>
+// ===== CONFIG =====
+const API_URL = 'https://script.google.com/macros/s/AKfycbymCq1-SpKUPipAfW5VCAd87wzCYZJY5PpetdHm-bs02Nd6LpgWdJdQzO3M2KZeOoNT/exec';
+
+// ===== CONSTANTS =====
+const BRANCHES = ['พัทยา','สัตหีบ','บ่อวิน','ระยอง','บ้านฉาง','ชัยนาท'];
+const BRANCH_ICONS = {'พัทยา':'🏖️','สัตหีบ':'⚓','บ่อวิน':'🏭','ระยอง':'🌊','บ้านฉาง':'🚢','ชัยนาท':'🌾'};
+const STATUS_LABEL = {todo:'ยังไม่เริ่ม',doing:'กำลังทำ',review:'รอตรวจ',done:'เสร็จแล้ว'};
+const STATUS_CLASS = {todo:'badge-todo',doing:'badge-doing',review:'badge-review',done:'badge-done'};
+const PRIORITY_LABEL = {high:'สูง',mid:'กลาง',low:'ต่ำ'};
+
+// ===== API HELPERS =====
+async function apiGet(sheet){
+  try{
+    const res = await fetch(`${API_URL}?action=get&sheet=${sheet}`);
+    const data = await res.json();
+    return Array.isArray(data)?data:[];
+  }catch(e){console.error('GET error',e);return [];}
+}
+async function apiSave(sheet,data){
+  try{
+    await fetch(API_URL,{method:'POST',body:JSON.stringify({action:'save',sheet,data})});
+  }catch(e){console.error('SAVE error',e);}
+}
+async function apiDelete(sheet,id){
+  try{
+    await fetch(API_URL,{method:'POST',body:JSON.stringify({action:'delete',sheet,id})});
+  }catch(e){console.error('DELETE error',e);}
+}
+
+// ===== DATA =====
+let staff=[], tasks=[], sheets=[];
+let nextStaffId=1, nextTaskId=1, nextSheetId=1;
+let editingStaffId=null, editingTaskId=null, editingSheetId=null;
+let currentTaskBranch='all';
+let tempAvatarData='';
+
+// ===== LOADING UI =====
+function showLoading(msg){
+  let el=document.getElementById('globalLoader');
+  if(!el){el=document.createElement('div');el.id='globalLoader';
+    el.style.cssText='position:fixed;top:0;left:0;right:0;z-index:999;background:var(--green-main);color:#fff;text-align:center;padding:10px;font-size:14px;font-weight:600;';
+    document.body.prepend(el);}
+  el.textContent=msg||'⏳ กำลังโหลดข้อมูล...';el.style.display='block';
+}
+function hideLoading(){const el=document.getElementById('globalLoader');if(el)el.style.display='none';}
+
+// ===== LOAD ALL DATA =====
+async function loadAllData(){
+  showLoading('⏳ กำลังโหลดข้อมูลจาก Google Sheets...');
+  try{
+    const [s,t,sh]=await Promise.all([apiGet('staff'),apiGet('tasks'),apiGet('sheets')]);
+    staff=s.map(r=>({id:Number(r.id)||0,name:r.name||'',role:r.role||'',tel:r.tel||'',branch:r.branch||'',photo:r.photo||''})).filter(r=>r.id&&r.name);
+    tasks=t.map(r=>({id:Number(r.id)||0,name:r.name||'',branch:r.branch||'',assign:Number(r.assign)||null,priority:r.priority||'mid',due:r.due||'',status:r.status||'todo',note:r.note||''})).filter(r=>r.id&&r.name);
+    sheets=sh.map(r=>({id:Number(r.id)||0,name:r.name||'',url:r.url||'',desc:r.desc||'',icon:r.icon||'📄'})).filter(r=>r.id&&r.name);
+    if(staff.length===0)staff=[
+      {id:1,name:'สาริสา พิมพ์แสง (กบ)',role:'Accounting Department Head',tel:'081-761-2040',branch:'พัทยา',photo:''},
+      {id:2,name:'แพรพรรณ แจ้มศรี (แพร)',role:'Accounting',tel:'094-852-9700',branch:'พัทยา',photo:''},
+    ];
+    if(sheets.length===0)sheets=[
+      {id:1,name:'รายงานยอดขายรายเดือน',url:'',desc:'สรุปยอดขายทุกเดือน',icon:'📈'},
+      {id:2,name:'บัญชีรายรับ-รายจ่าย',url:'',desc:'รายการเดบิต-เครดิต',icon:'💰'},
+      {id:3,name:'รายงานภาษีมูลค่าเพิ่ม',url:'',desc:'ภ.พ.30 ประจำเดือน',icon:'🧾'},
+      {id:4,name:'สินทรัพย์และค่าเสื่อม',url:'',desc:'ตารางค่าเสื่อมราคา',icon:'🏛️'},
+      {id:5,name:'เงินเดือนพนักงาน',url:'',desc:'Payroll ประจำเดือน',icon:'👥'},
+      {id:6,name:'งบการเงิน',url:'',desc:'งบดุล-กำไรขาดทุน',icon:'📋'},
+    ];
+    nextStaffId=Math.max(...staff.map(s=>s.id),0)+1;
+    nextTaskId=Math.max(...tasks.map(t=>t.id),0)+1;
+    nextSheetId=Math.max(...sheets.map(s=>s.id),0)+1;
+  }catch(e){console.error('loadAllData error',e);}
+  await loadCerts();
+  hideLoading();
+  renderCalendar();renderHome();renderTasks();
+}
+
+// ===== PAGE NAV =====
+async function showPage(name,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.main-nav-inner button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  if(btn) btn.classList.add('active');
+  showLoading('⏳ กำลังโหลดข้อมูล...');
+  const [s,t,sh]=await Promise.all([apiGet('staff'),apiGet('tasks'),apiGet('sheets')]);
+  if(s.length>0) staff=s.map(r=>({id:Number(r.id)||0,name:r.name||'',role:r.role||'',tel:r.tel||'',branch:r.branch||'',photo:r.photo||''})).filter(r=>r.id&&r.name);
+  if(t.length>0) tasks=t.map(r=>({id:Number(r.id)||0,name:r.name||'',branch:r.branch||'',assign:Number(r.assign)||null,priority:r.priority||'mid',due:r.due||'',status:r.status||'todo',note:r.note||''})).filter(r=>r.id&&r.name);
+  if(sh.length>0) sheets=sh.map(r=>({id:Number(r.id)||0,name:r.name||'',url:r.url||'',desc:r.desc||'',icon:r.icon||'📄'})).filter(r=>r.id&&r.name);
+  hideLoading();
+  if(name==='tracking') renderTasks();
+  if(name==='staff') renderStaff();
+  if(name==='branches') renderBranchPage();
+  if(name==='sheets') renderSheets('sheetsGrid');
+  if(name==='coop'){renderCoopGrid();}
+  if(name==='home') renderHome();
+}
+
+
+
+// ===== LIGHTBOX =====
+function openLightbox(src, title){
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightboxTitle').textContent = title || '';
+  const el = document.getElementById('lightboxOverlay');
+  el.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightboxOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeLightbox(); });
+
+// ===== CERTIFICATES =====
+let certs = [];
+let nextCertId = 1;
+let editingCertId = null;
+const CERT_TYPE_LABEL = {cert:'🏆 Certificate',award:'🥇 รางวัล',work:'📁 ผลงาน',training:'📚 อบรม'};
+const CERT_TYPE_COLOR = {cert:'#fef3c7',award:'#fce7f3',work:'#e0f2fe',training:'#f0fdf4'};
+const CERT_TYPE_BORDER = {cert:'#f59e0b',award:'#ec4899',work:'#0ea5e9',training:'#22c55e'};
+
+async function loadCerts(){
+  const data = await apiGet('certs');
+  certs = data.map(r=>({
+    id:Number(r.id)||0, name:r.name||'', type:r.type||'cert',
+    staffId:Number(r.staffId)||null, year:r.year||'', url:r.url||'', photo:r.photo||'', desc:r.desc||''
+  })).filter(r=>r.id&&r.name);
+  nextCertId = Math.max(...certs.map(c=>c.id),0)+1;
+  renderCerts();
+}
+
+function renderCerts(){
+  const grid = document.getElementById('certGrid');
+  const empty = document.getElementById('certEmpty');
+  if(!grid) return;
+  if(certs.length===0){grid.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  grid.innerHTML = certs.map(c=>{
+    const s = staff.find(x=>x.id===c.staffId);
+    const sName = s ? s.name.split('(')[0].trim() : '';
+    const bg = CERT_TYPE_COLOR[c.type]||'#f9fafb';
+    const border = CERT_TYPE_BORDER[c.type]||'#e5e7eb';
+    const imgSrc = c.photo || (c.url && !c.url.includes('drive.google.com') ? c.url : '');
+    const driveLink = c.url || '';
+    return `<div style="background:${bg};border:1px solid ${border};border-radius:10px;overflow:hidden;position:relative;cursor:pointer;transition:box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.12)'" onmouseout="this.style.boxShadow='none'">
+      ${imgSrc?`<div style="width:100%;height:150px;overflow:hidden;background:#f3f4f6;position:relative;" onclick="openLightbox('${imgSrc.replace(/'/g,'\\&apos;')}','${c.name.replace(/'/g,'\\&apos;')}')">
+        <img src="${imgSrc}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.display='none'">
+        <div style="position:absolute;inset:0;background:rgba(0,0,0,0);display:flex;align-items:center;justify-content:center;transition:background 0.2s;" onmouseover="this.style.background='rgba(0,0,0,0.3)';this.querySelector('span').style.opacity='1'" onmouseout="this.style.background='rgba(0,0,0,0)';this.querySelector('span').style.opacity='0'">
+          <span style="color:#fff;font-size:24px;opacity:0;transition:opacity 0.2s;">🔍</span>
+        </div>
+      </div>`:''}
+      <div style="padding:12px;">
+        <div style="font-size:11px;font-weight:600;color:#666;margin-bottom:5px;">${CERT_TYPE_LABEL[c.type]||''} ${c.year?'· '+c.year:''}</div>
+        <div style="font-size:13px;font-weight:700;color:#1f2937;margin-bottom:4px;line-height:1.4;">${c.name}</div>
+        ${sName?`<div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 ${sName}</div>`:''}
+        ${c.desc?`<div style="font-size:11px;color:#6b7280;margin-bottom:6px;">${c.desc}</div>`:''}
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">
+          ${imgSrc?`<button onclick="openLightbox('${imgSrc.replace(/'/g,"\\'")}','${c.name.replace(/'/g,"\\'")}');event.stopPropagation()" style="flex:1;padding:6px 8px;background:var(--green-pale);border:1px solid var(--green-light);border-radius:6px;cursor:pointer;font-size:11px;color:var(--green-dark);font-weight:600;font-family:inherit;">🔍 ดูรูป</button>`:''}
+          ${driveLink?`<a href="${driveLink}" target="_blank" onclick="event.stopPropagation()" style="flex:1;display:flex;align-items:center;justify-content:center;padding:6px 8px;background:var(--green-main);color:#fff;border-radius:6px;text-decoration:none;font-size:11px;font-weight:600;">🔗 เปิด</a>`:''}
+          <button onclick="openCertModal(${c.id});event.stopPropagation()" style="padding:6px 8px;background:none;border:1px solid var(--gray-200);border-radius:6px;cursor:pointer;font-size:11px;color:var(--gray-400);font-family:inherit;">✏️</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+let certImgData = '';
+function switchImgTab(tab){
+  const isUpload = tab==='upload';
+  document.getElementById('imgPanelUpload').style.display = isUpload?'':'none';
+  document.getElementById('imgPanelUrl').style.display = isUpload?'none':'';
+  document.getElementById('imgTabUpload').style.background = isUpload?'var(--green-main)':'#fff';
+  document.getElementById('imgTabUpload').style.color = isUpload?'#fff':'var(--gray-600)';
+  document.getElementById('imgTabUpload').style.borderColor = isUpload?'var(--green-main)':'var(--gray-200)';
+  document.getElementById('imgTabUrl').style.background = isUpload?'#fff':'var(--green-main)';
+  document.getElementById('imgTabUrl').style.color = isUpload?'var(--gray-600)':'#fff';
+  document.getElementById('imgTabUrl').style.borderColor = isUpload?'var(--gray-200)':'var(--green-main)';
+}
+function previewCertImg(input){
+  const file = input.files[0];
+  if(!file) return;
+  if(file.size > 1.2*1024*1024){alert('รูปใหญ่เกิน 1MB กรุณาบีบอัดหรือใช้ลิงก์ Google Drive แทน');input.value='';return;}
+  const reader = new FileReader();
+  reader.onload = e => {
+    certImgData = e.target.result;
+    document.getElementById('certImgPreview').src = certImgData;
+    document.getElementById('certImgPreviewWrap').style.display = '';
+    document.getElementById('certImgPlaceholder').style.display = 'none';
+    document.getElementById('certImgClearBtn').style.display = '';
+  };
+  reader.readAsDataURL(file);
+}
+function clearCertImg(){
+  certImgData='';
+  document.getElementById('certImgInput').value='';
+  document.getElementById('certImgPreview').src='';
+  document.getElementById('certImgPreviewWrap').style.display='none';
+  document.getElementById('certImgPlaceholder').style.display='';
+  document.getElementById('certImgClearBtn').style.display='none';
+}
+function openCertModal(id){
+  editingCertId = id||null;
+  certImgData = '';
+  const c = id ? certs.find(x=>x.id===id) : null;
+  document.getElementById('certModalTitle').textContent = id?'แก้ไข Certificate / ผลงาน':'เพิ่ม Certificate / ผลงาน';
+  document.getElementById('certDeleteBtn').style.display = id?'':'none';
+  document.getElementById('cName').value = c?c.name:'';
+  document.getElementById('cType').value = c?c.type:'cert';
+  document.getElementById('cYear').value = c?c.year:'';
+  document.getElementById('cUrl').value = c?c.url:'';
+  document.getElementById('cDesc').value = c?c.desc:'';
+  const sel = document.getElementById('cStaff');
+  sel.innerHTML = '<option value="">-- ไม่ระบุ --</option>' + staff.map(s=>`<option value="${s.id}" ${c&&c.staffId===s.id?'selected':''}>${s.name}</option>`).join('');
+  // reset image area
+  clearCertImg();
+  if(c && c.photo){
+    certImgData = c.photo;
+    document.getElementById('certImgPreview').src = c.photo;
+    document.getElementById('certImgPreviewWrap').style.display='';
+    document.getElementById('certImgPlaceholder').style.display='none';
+    document.getElementById('certImgClearBtn').style.display='';
+    switchImgTab('upload');
+  } else if(c && c.url){
+    switchImgTab('url');
+    // preview url image
+    const prev = document.getElementById('cUrlPreview');
+    const img = document.getElementById('cUrlPreviewImg');
+    img.src = c.url; prev.style.display='';
+  } else {
+    switchImgTab('upload');
+  }
+  openOverlay('certOverlay');
+}
+function previewUrlImg(val){
+  const prev = document.getElementById('cUrlPreview');
+  const img = document.getElementById('cUrlPreviewImg');
+  if(val && !val.includes('drive.google.com')){img.src=val;prev.style.display='';}
+  else prev.style.display='none';
+}
+
+async function saveCert(){
+  const name = document.getElementById('cName').value.trim();
+  if(!name){alert('กรุณาระบุชื่อ');return;}
+  const urlPanel = document.getElementById('imgPanelUrl').style.display !== 'none';
+  const existing = editingCertId ? certs.find(x=>x.id===editingCertId) : null;
+  const obj = {
+    id: editingCertId||nextCertId++,
+    name, type: document.getElementById('cType').value,
+    staffId: parseInt(document.getElementById('cStaff').value)||null,
+    year: document.getElementById('cYear').value.trim(),
+    url: urlPanel ? document.getElementById('cUrl').value.trim() : (existing?existing.url:''),
+    photo: certImgData || (existing&&!certImgData?existing.photo:''),
+    desc: document.getElementById('cDesc').value.trim(),
+  };
+  if(editingCertId){const i=certs.findIndex(x=>x.id===editingCertId);certs[i]=obj;}
+  else certs.push(obj);
+  closeOverlay('certOverlay');
+  renderCerts();
+  showLoading('💾 กำลังบันทึก...');
+  await apiSave('certs', obj);
+  hideLoading();
+}
+
+async function deleteCert(){
+  if(!confirm('ต้องการลบรายการนี้?')) return;
+  const delId = editingCertId;
+  certs = certs.filter(x=>x.id!==delId);
+  closeOverlay('certOverlay');
+  renderCerts();
+  showLoading('🗑 กำลังลบ...');
+  await apiDelete('certs', delId);
+  hideLoading();
+}
+
+
+// ===== COOP STORE =====
+const COOP_BRANCHES = ['พัทยา','สัตหีบ','บ่อวิน','ระยอง','บ้านฉาง','ชัยนาท'];
+let coopLinks = JSON.parse(localStorage.getItem('coop_links')||'{}');
+let editingCoopBranch = null;
+
+function renderCoopGrid(){
+  const grid = document.getElementById('coopGrid');
+  if(!grid) return;
+  grid.innerHTML = COOP_BRANCHES.map(b => {
+    const d = coopLinks[b]||{};
+    const hasLink = !!d.url;
+    return `<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+      <div style="background:var(--green-main);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;">
+        <span style="color:#fff;font-weight:700;font-size:14px;">${BRANCH_ICONS[b]||'🏪'} สาขา${b}</span>
+        <button onclick="openCoopModal('${b}')" style="background:rgba(255,255,255,0.2);border:none;border-radius:6px;color:#fff;cursor:pointer;padding:4px 10px;font-size:12px;font-family:inherit;">✏️ แก้ไข</button>
+      </div>
+      <div style="padding:14px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+          <div style="background:var(--green-pale);border-radius:8px;padding:10px;text-align:center;">
+            <div style="font-size:11px;color:var(--gray-400);margin-bottom:4px;">รหัสขนม</div>
+            <div style="font-size:13px;font-weight:700;color:var(--green-dark);">📦 Stock</div>
+          </div>
+          <div style="background:#fef3c7;border-radius:8px;padding:10px;text-align:center;">
+            <div style="font-size:11px;color:var(--gray-400);margin-bottom:4px;">ยอดคงเหลือ</div>
+            <div style="font-size:13px;font-weight:700;color:#92400e;">💰 Balance</div>
+          </div>
+        </div>
+        ${d.note?`<div style="font-size:11px;color:var(--gray-400);margin-bottom:10px;">📝 ${d.note}</div>`:''}
+        ${hasLink
+          ? `<a href="${d.url}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;background:var(--green-main);color:#fff;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;">📊 เปิด Google Sheets ↗</a>`
+          : `<button onclick="openCoopModal('${b}')" style="width:100%;padding:9px;border:1px dashed var(--gray-200);border-radius:8px;background:none;cursor:pointer;font-size:13px;color:var(--gray-400);font-family:inherit;">+ แนบลิงก์ Google Sheets</button>`
+        }
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openCoopModal(branch){
+  editingCoopBranch = branch;
+  const d = coopLinks[branch]||{};
+  document.getElementById('coopModalTitle').textContent = `ตั้งค่าลิงก์ — สาขา${branch}`;
+  document.getElementById('coopUrl').value = d.url||'';
+  document.getElementById('coopNote').value = d.note||'';
+  openOverlay('coopOverlay');
+}
+
+function saveCoopLink(){
+  const url = document.getElementById('coopUrl').value.trim();
+  const note = document.getElementById('coopNote').value.trim();
+  coopLinks[editingCoopBranch] = {url, note};
+  localStorage.setItem('coop_links', JSON.stringify(coopLinks));
+  closeOverlay('coopOverlay');
+  renderCoopGrid();
+}
+
+// ===== 3D ISOMETRIC ANIMATION =====
+function initIsoCanvas(){
+  const canvas = document.getElementById('isoCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+  canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  let t = 0, animId = null, phase = 0, phaseT = 0;
+  const TX=36,TY=19,TZ=24;
+  function W(){return canvas.offsetWidth;}
+  function H(){return canvas.offsetHeight;}
+  function ix(x,y,z){return W()/2+(x-y)*TX;}
+  function iy(x,y,z){return H()*0.52-z*TZ+(x+y)*TY;}
+  function face(pts,fill,str='rgba(0,0,0,0.08)'){
+    ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);
+    for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);
+    ctx.closePath();ctx.fillStyle=fill;ctx.fill();
+    if(str){ctx.strokeStyle=str;ctx.lineWidth=0.7;ctx.stroke();}
+  }
+  function box(x,y,z,w,d,h,top,right,left){
+    face([[ix(x,y,z+h),iy(x,y,z+h)],[ix(x+w,y,z+h),iy(x+w,y,z+h)],[ix(x+w,y+d,z+h),iy(x+w,y+d,z+h)],[ix(x,y+d,z+h),iy(x,y+d,z+h)]],top);
+    face([[ix(x+w,y,z+h),iy(x+w,y,z+h)],[ix(x+w,y+d,z+h),iy(x+w,y+d,z+h)],[ix(x+w,y+d,z),iy(x+w,y+d,z)],[ix(x+w,y,z),iy(x+w,y,z)]],right);
+    face([[ix(x,y+d,z+h),iy(x,y+d,z+h)],[ix(x+w,y+d,z+h),iy(x+w,y+d,z+h)],[ix(x+w,y+d,z),iy(x+w,y+d,z)],[ix(x,y+d,z),iy(x,y+d,z)]],left);
+  }
+  function circ(x,y,z,r,c){ctx.beginPath();ctx.ellipse(ix(x,y,z),iy(x,y,z),r*TX*0.55,r*TY*0.8,0,0,Math.PI*2);ctx.fillStyle=c;ctx.fill();}
+  function txt(x,y,z,s,sz,c){ctx.font=`bold ${sz}px Sarabun,sans-serif`;ctx.fillStyle=c;ctx.textAlign='center';ctx.fillText(s,ix(x,y,z),iy(x,y,z));}
+  function tree(x,y){
+    box(x,y,0.2,0.35,0.35,1,'#92400e','#78350f','#6b2d08');
+    circ(x+0.175,y+0.175,1.2+Math.sin(t*0.03+x)*0.05,0.75,'#16a34a');
+    circ(x+0.175,y+0.175,1.5+Math.sin(t*0.03+x)*0.05,0.5,'#15803d');
+  }
+
+  function exterior(){
+    // Sky
+    const sky=ctx.createLinearGradient(0,0,0,H()*0.65);
+    sky.addColorStop(0,'#dbeafe');sky.addColorStop(1,'#bfdbfe');
+    ctx.fillStyle=sky;ctx.fillRect(0,0,W(),H());
+    // Ground
+    box(-4,-4,0,10,10,0.18,'#bbf7d0','#86efac','#4ade80');
+    // Pavement
+    box(-1.8,-1.8,0.18,5.5,5.5,0.1,'#e2e8f0','#cbd5e1','#94a3b8');
+    // Building body
+    box(-1,-1,0.28,4,3.5,3.2,'#f0f9ff','#bae6fd','#7dd3fc');
+    // Roof
+    box(-1.2,-1.2,3.48,4.4,3.9,0.35,'#1d4ed8','#1e40af','#1e3a8a');
+    // Awning (blue/white stripes)
+    for(let i=0;i<4;i++){const c=i%2===0?'#1d4ed8':'#f0f9ff';box(-0.9+i*0.85,-1.08,2.1,0.85,0.12,0.55,c,c+'bb',c+'88');}
+    // Sign
+    box(-0.85,-1.12,3.0,3.4,0.1,0.55,'#1d4ed8','#1e40af','#1e3a8a');
+    txt(0.85,-1.18,3.33,'🛒 ร้านค้าโรงเรียน',10,'#fff');
+    // Windows
+    box(-0.85,-1.06,1.25,0.95,0.07,1.0,'#bae6fd','#93c5fd','#60a5fa');
+    box(0.35,-1.06,1.25,0.95,0.07,1.0,'#bae6fd','#93c5fd','#60a5fa');
+    // Door
+    box(1.5,-1.06,0.28,0.85,0.09,1.65,'#e0f2fe','#7dd3fc','#38bdf8');
+    txt(1.925,-1.1,1.0,'🚪',13,'#1d4ed8');
+    // Open sign (bobbing)
+    const b=Math.sin(t*0.05)*0.08;
+    box(2.9,-0.9,0.28+b,0.65,0.55,1.5,'#fef9c3','#fde68a','#fbbf24');
+    txt(3.22,-0.62,1.08+b,'เปิด',7,'#1d4ed8');
+    txt(3.22,-0.62,0.78+b,'07:30',6,'#374151');
+    // Trees
+    tree(-3,-2.5);tree(-3,0.8);tree(3.2,-2.5);tree(3.2,0.8);
+    // Bench
+    box(2.8,1.8,0.28,1.1,0.45,0.5,'#d97706','#b45309','#92400e');
+    box(2.75,1.75,0.78,1.2,0.07,0.2,'#d97706','#b45309','#92400e');
+    // Walking students
+    const s1x=-2.5+((t*0.016)%5.5);
+    box(s1x,-0.6,0.28,0.28,0.28,0.65,'#fff','#e2e8f0','#cbd5e1');
+    circ(s1x+0.14,-0.46,0.98,0.2,'#fde68a');
+    txt(s1x+0.14,-0.46,1.12,'🎒',9,'');
+    const s2x=3.5-((t*0.011)%5);
+    box(s2x,1.5,0.28,0.28,0.28,0.65,'#dbeafe','#bfdbfe','#93c5fd');
+    circ(s2x+0.14,1.64,0.98,0.2,'#fde68a');
+    // Sparkles
+    ['⭐','✨','💛','🌟','⚡','💙'].forEach((e,i)=>{
+      const sx=Math.sin(t*0.035+i*1.05)*3.5,sy=Math.cos(t*0.03+i*0.85)*3,sz=4.5+Math.sin(t*0.055+i)*0.5;
+      ctx.font='10px serif';ctx.textAlign='center';ctx.fillText(e,ix(sx,sy,sz),iy(sx,sy,sz));
+    });
+  }
+
+  function interior(){
+    // Warm floor bg
+    const bg=ctx.createLinearGradient(0,0,0,H()*0.85);
+    bg.addColorStop(0,'#fff7ed');bg.addColorStop(1,'#fef3c7');
+    ctx.fillStyle=bg;ctx.fillRect(0,0,W(),H());
+    // Floor tiles
+    for(let xi=-3;xi<5;xi+=1)for(let yi=-3;yi<5;yi+=1){
+      box(xi,yi,0,1,1,0.12,xi%2===yi%2?'#f5f5f4':'#e7e5e4','#d6d3d1','#a8a29e');
+    }
+    // Back wall
+    box(-3,-3.1,0,8,0.18,4.5,'#fafaf9','#f5f5f4','#e7e5e4');
+    // Shelving units
+    const cols=[['#ef4444','#f97316','#3b82f6','#10b981'],['#8b5cf6','#ec4899','#06b6d4','#84cc16'],['#0ea5e9','#22c55e','#eab308','#dc2626'],['#f59e0b','#14b8a6','#e11d48','#7c3aed']];
+    [-2.5,-1,0.5,2].forEach((sx,si)=>{
+      box(sx,-2.85,0,1.2,0.5,2.8,'#d97706','#b45309','#92400e');
+      [0.65,1.35,2.05].forEach(sh=>{
+        box(sx,-2.85,sh,1.2,0.5,0.09,'#fde68a','#fbbf24','#f59e0b');
+        cols[si].forEach((c,ci)=>{if(ci<4)box(sx+ci*0.27,-2.85,sh+0.09,0.22,0.36,0.42,c,c+'bb',c+'88');});
+      });
+    });
+    // Counter
+    box(-0.6,1.4,0,2.2,1.1,1.1,'#1d4ed8','#1e40af','#1e3a8a');
+    box(-0.6,1.4,1.1,2.2,0.2,0.12,'#bfdbfe','#93c5fd','#60a5fa');
+    box(0.8,1.3,1.22,0.55,0.55,0.42,'#1f2937','#111827','#030712');
+    txt(1.075,1.45,1.52,'💻',10,'');
+    // Staff
+    const sb=Math.sin(t*0.04)*0.04;
+    box(0.2,1.15,0.2,0.32,0.32,0.72+sb,'#fff','#f1f5f9','#e2e8f0');
+    circ(0.36,1.31,1.02+sb,0.22,'#fde68a');
+    txt(0.36,1.31,1.18+sb,'😊',11,'');
+    // Shoppers
+    const p1x=-1+Math.sin(t*0.022)*0.3;
+    box(p1x,0.4,0.2,0.3,0.3,0.68,'#dbeafe','#bfdbfe','#93c5fd');
+    circ(p1x+0.15,0.55,0.98,0.21,'#fed7aa');
+    txt(p1x+0.15,0.55,1.13,'🛍️',10,'');
+    const p2x=1.5+Math.cos(t*0.018)*0.25;
+    box(p2x,0.1,0.2,0.3,0.3,0.68,'#fce7f3','#fbcfe8','#f9a8d4');
+    circ(p2x+0.15,0.25,0.98,0.21,'#fed7aa');
+    txt(p2x+0.15,0.25,1.13,'🧁',9,'');
+    // Floating product tags
+    ['ขนม','เครื่องดื่ม','นม','ขนมปัง','สินค้า'].forEach((label,i)=>{
+      const lx=Math.sin(t*0.028+i*1.3)*2.8,ly=Math.cos(t*0.022+i*1.1)*1.8,lz=3.8+Math.sin(t*0.045+i)*0.45;
+      ctx.fillStyle='rgba(29,78,216,0.75)';ctx.font='bold 8px Sarabun,sans-serif';ctx.textAlign='center';
+      const px=ix(lx,ly,lz),py=iy(lx,ly,lz);
+      ctx.beginPath();ctx.roundRect(px-16,py-9,32,14,4);ctx.fill();
+      ctx.fillStyle='#fff';ctx.fillText(label,px,py+2);
+    });
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W(),H());
+    phaseT++;
+    if(phaseT>320){phaseT=0;phase=1-phase;}
+    const alpha=phaseT<25?phaseT/25:phaseT>295?(320-phaseT)/25:1;
+    ctx.globalAlpha=alpha;
+    if(phase===0)exterior();else interior();
+    ctx.globalAlpha=1;
+    // Bottom label
+    const label=phase===0?'🏫 ภายนอกร้านค้าสหกรณ์ — เปิดบริการทุกวัน 07:30-16:00':'🛒 ภายในร้าน — ขนม เครื่องดื่ม สินค้าครบครัน';
+    const lw=Math.min(W()-40,360);
+    ctx.fillStyle='rgba(255,255,255,0.88)';
+    ctx.beginPath();ctx.roundRect(W()/2-lw/2,H()-36,lw,26,13);ctx.fill();
+    ctx.font='bold 11px Sarabun,sans-serif';ctx.fillStyle='#1d4ed8';ctx.textAlign='center';
+    ctx.fillText(label,W()/2,H()-19);
+    t++;
+    animId=requestAnimationFrame(draw);
+  }
+  if(animId)cancelAnimationFrame(animId);
+  draw();
+}
+
+// ===== CALENDAR =====
+const MONTHS_TH=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+const DAYS_TH=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
+let calYear,calMonth;
+const now=new Date(); calYear=now.getFullYear(); calMonth=now.getMonth();
+function renderCalendar(){
+  const title=document.getElementById('calTitle');
+  const grid=document.getElementById('calGrid');
+  if(!title||!grid) return;
+  title.textContent=MONTHS_TH[calMonth]+' '+(calYear+543);
+  grid.querySelectorAll('.cal-cell').forEach(e=>e.remove());
+  const first=new Date(calYear,calMonth,1).getDay();
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+  const prevDays=new Date(calYear,calMonth,0).getDate();
+  const today=new Date();
+  for(let i=first-1;i>=0;i--){const d=document.createElement('div');d.className='cal-cell other-month';d.textContent=prevDays-i;grid.appendChild(d);}
+  for(let d=1;d<=daysInMonth;d++){
+    const cell=document.createElement('div');cell.className='cal-cell';cell.textContent=d;
+    if(d===today.getDate()&&calMonth===today.getMonth()&&calYear===today.getFullYear()) cell.classList.add('today');
+    if([5,10,15,20,25].includes(d)) cell.classList.add('has-event');
+    grid.appendChild(cell);
+  }
+  const total=first+daysInMonth;const rem=(7-(total%7))%7;
+  for(let d=1;d<=rem;d++){const c=document.createElement('div');c.className='cal-cell other-month';c.textContent=d;grid.appendChild(c);}
+}
+document.getElementById('prevMonth').onclick=()=>{calMonth--;if(calMonth<0){calMonth=11;calYear--;}renderCalendar();};
+document.getElementById('nextMonth').onclick=()=>{calMonth++;if(calMonth>11){calMonth=0;calYear++;}renderCalendar();};
+
+// ===== CLOCK =====
+function updateClock(){
+  const n=new Date();
+  const h=String(n.getHours()).padStart(2,'0'),m=String(n.getMinutes()).padStart(2,'0'),s=String(n.getSeconds()).padStart(2,'0');
+  document.getElementById('clockDisplay').textContent=h+':'+m+':'+s;
+  document.getElementById('todayDate').textContent=n.getDate()+' '+MONTHS_TH[n.getMonth()]+' '+(n.getFullYear()+543);
+  document.getElementById('todayTH').textContent='วัน'+DAYS_TH[n.getDay()];
+}
+setInterval(updateClock,1000); updateClock();
+
+// ===== HOME =====
+function renderHome(){
+  renderSheets('sheetsGridHome',3);
+  const stats=getTaskStats('all');
+  const el=document.getElementById('homeTaskStats');
+  if(el) el.innerHTML=statsHTML(stats);
+}
+function getTaskStats(branch){
+  const t=branch==='all'?tasks:tasks.filter(x=>x.branch===branch);
+  return{total:t.length,todo:t.filter(x=>x.status==='todo').length,doing:t.filter(x=>x.status==='doing').length,done:t.filter(x=>x.status==='done').length};
+}
+function statsHTML(s){
+  return `<div class="stat-box"><div class="stat-num">${s.total}</div><div class="stat-lbl">งานทั้งหมด</div></div>
+  <div class="stat-box"><div class="stat-num" style="color:#ef4444">${s.todo}</div><div class="stat-lbl">ยังไม่เริ่ม</div></div>
+  <div class="stat-box"><div class="stat-num" style="color:#f97316">${s.doing}</div><div class="stat-lbl">กำลังทำ</div></div>
+  <div class="stat-box"><div class="stat-num" style="color:var(--green-main)">${s.done}</div><div class="stat-lbl">เสร็จแล้ว</div></div>`;
+}
+
+// ===== TASKS =====
+function renderBranchTabs(){
+  const el=document.getElementById('taskBranchTabs');
+  if(!el) return;
+  el.innerHTML=`<button class="branch-tab ${currentTaskBranch==='all'?'active':''}" onclick="setTaskBranch('all',this)">🏠 ทั้งหมด</button>`
+    +BRANCHES.map(b=>`<button class="branch-tab ${currentTaskBranch===b?'active':''}" onclick="setTaskBranch('${b}',this)">${BRANCH_ICONS[b]} ${b}</button>`).join('');
+}
+function setTaskBranch(b,btn){
+  currentTaskBranch=b;
+  document.querySelectorAll('#taskBranchTabs .branch-tab').forEach(x=>x.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderTasks();
+}
+function renderTasks(){
+  renderBranchTabs();
+  const search=(document.getElementById('taskSearch')||{}).value||'';
+  const filterStatus=(document.getElementById('taskFilterStatus')||{}).value||'';
+  const filterAssign=(document.getElementById('taskFilterAssign')||{}).value||'';
+
+  // populate assign filter
+  const assignSel=document.getElementById('taskFilterAssign');
+  if(assignSel){
+    const cur=assignSel.value;
+    assignSel.innerHTML='<option value="">ผู้รับผิดชอบทั้งหมด</option>'+staff.map(s=>`<option value="${s.id}" ${cur==s.id?'selected':''}>${s.name}</option>`).join('');
+  }
+
+  let filtered=tasks;
+  if(currentTaskBranch!=='all') filtered=filtered.filter(t=>t.branch===currentTaskBranch);
+  if(search) filtered=filtered.filter(t=>t.name.includes(search));
+  if(filterStatus) filtered=filtered.filter(t=>t.status===filterStatus);
+  if(filterAssign) filtered=filtered.filter(t=>t.assign==filterAssign);
+
+  const stats=getTaskStats(currentTaskBranch);
+  const statsEl=document.getElementById('trackingStats');
+  if(statsEl) statsEl.innerHTML=statsHTML(stats);
+
+  const tbody=document.getElementById('taskTableBody');
+  const empty=document.getElementById('taskEmpty');
+  if(!tbody) return;
+
+  if(filtered.length===0){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+
+  tbody.innerHTML=filtered.map(t=>{
+    const assignee=staff.find(s=>s.id===t.assign);
+    const aName=assignee?assignee.name.split('(')[0].trim():'-';
+    const dueStr=t.due?new Date(t.due).toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'2-digit'}):'';
+    const isOverdue=t.due&&new Date(t.due)<new Date()&&t.status!=='done';
+    return `<tr class="${t.status==='done'?'done':''}">
+      <td><input type="checkbox" ${t.status==='done'?'checked':''} onchange="toggleDone(${t.id},this.checked)" style="cursor:pointer;width:15px;height:15px;"></td>
+      <td><span class="task-name-cell">${t.name}</span>${t.note?`<div style="font-size:11px;color:var(--gray-400);margin-top:2px;">${t.note}</div>`:''}</td>
+      <td><span style="font-size:12px;">${BRANCH_ICONS[t.branch]||''} ${t.branch}</span></td>
+      <td style="font-size:12px;">${aName}</td>
+      <td><span class="priority-dot p-${t.priority}"></span>${PRIORITY_LABEL[t.priority]}</td>
+      <td style="font-size:12px;color:${isOverdue?'#ef4444':'inherit'}">${dueStr}${isOverdue?' ⚠️':''}</td>
+      <td><span class="badge ${STATUS_CLASS[t.status]}">${STATUS_LABEL[t.status]}</span></td>
+      <td>
+        <button class="task-action-btn" onclick="openTaskModal(${t.id})" title="แก้ไข">✏️</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+async function toggleDone(id,checked){
+  const t=tasks.find(x=>x.id===id);
+  if(t){t.status=checked?'done':'doing';renderTasks();await apiSave('tasks',t);}
+}
+
+function openTaskModal(id){
+  editingTaskId=id||null;
+  const t=id?tasks.find(x=>x.id===id):null;
+  document.getElementById('taskModalTitle').textContent=id?'แก้ไขงาน':'เพิ่มงานใหม่';
+  document.getElementById('taskDeleteBtn').style.display=id?'':'none';
+  document.getElementById('tName').value=t?t.name:'';
+  document.getElementById('tNote').value=t?t.note:'';
+  document.getElementById('tDue').value=t?t.due:'';
+
+  const brSel=document.getElementById('tBranch');
+  brSel.innerHTML=BRANCHES.map(b=>`<option value="${b}" ${t&&t.branch===b?'selected':''}>${b}</option>`).join('');
+  if(!t&&currentTaskBranch!=='all') brSel.value=currentTaskBranch;
+
+  const aSel=document.getElementById('tAssign');
+  aSel.innerHTML='<option value="">-- ไม่ระบุ --</option>'+staff.map(s=>`<option value="${s.id}" ${t&&t.assign===s.id?'selected':''}>${s.name}</option>`).join('');
+
+  document.getElementById('tPriority').value=t?t.priority:'mid';
+  document.getElementById('tStatus').value=t?t.status:'todo';
+  openOverlay('taskOverlay');
+}
+
+async function saveTask(){
+  const name=document.getElementById('tName').value.trim();
+  if(!name){alert('กรุณาระบุชื่องาน');return;}
+  const obj={
+    id:editingTaskId||nextTaskId++,
+    name,
+    branch:document.getElementById('tBranch').value,
+    assign:parseInt(document.getElementById('tAssign').value)||null,
+    priority:document.getElementById('tPriority').value,
+    due:document.getElementById('tDue').value,
+    status:document.getElementById('tStatus').value,
+    note:document.getElementById('tNote').value.trim(),
+  };
+  if(editingTaskId){const i=tasks.findIndex(x=>x.id===editingTaskId);tasks[i]=obj;}
+  else tasks.push(obj);
+  closeOverlay('taskOverlay');
+  renderTasks();
+  showLoading('💾 กำลังบันทึก...');
+  await apiSave('tasks',obj);
+  hideLoading();
+}
+
+async function deleteTask(){
+  if(!confirm('ต้องการลบงานนี้?')) return;
+  const delId=editingTaskId;
+  tasks=tasks.filter(x=>x.id!==delId);
+  closeOverlay('taskOverlay');
+  renderTasks();
+  showLoading('🗑 กำลังลบ...');
+  await apiDelete('tasks',delId);
+  hideLoading();
+}
+
+// ===== STAFF =====
+function renderStaff(){
+  const grid=document.getElementById('staffGrid');
+  if(!grid) return;
+  grid.innerHTML=staff.map(s=>`
+    <div class="staff-card-big">
+      <button class="staff-edit-btn" onclick="openStaffModal(${s.id})">✏️</button>
+      <div class="staff-avatar-big" onclick="openStaffModal(${s.id})">
+        ${s.photo?`<img src="${s.photo}" alt="${s.name}">`:`<span>${s.name[0]}</span>`}
+      </div>
+      <div class="staff-name-big">${s.name}</div>
+      <div class="staff-role-big">${s.role||''}</div>
+      ${s.tel?`<div class="staff-tel-big">📞 ${s.tel}</div>`:''}
+      ${s.branch?`<div style="font-size:11px;color:var(--gray-400);margin-top:4px;">${BRANCH_ICONS[s.branch]||''} ${s.branch}</div>`:''}
+    </div>`).join('')
+  +`<div class="staff-card-big" style="border:1px dashed var(--gray-200);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;min-height:180px;" onclick="openStaffModal()" onmouseover="this.style.borderColor='var(--green-main)'" onmouseout="this.style.borderColor='var(--gray-200)'">
+    <div style="font-size:30px;margin-bottom:8px;">➕</div>
+    <div style="font-size:13px;color:var(--gray-400);">เพิ่มพนักงาน</div>
+  </div>`;
+}
+
+function openStaffModal(id){
+  editingStaffId=id||null;
+  tempAvatarData='';
+  const s=id?staff.find(x=>x.id===id):null;
+  document.getElementById('staffModalTitle').textContent=id?'แก้ไขข้อมูลพนักงาน':'เพิ่มพนักงานใหม่';
+  document.getElementById('staffDeleteBtn').style.display=id?'':'none';
+  document.getElementById('sName').value=s?s.name:'';
+  document.getElementById('sRole').value=s?s.role:'';
+  document.getElementById('sTel').value=s?s.tel:'';
+  const brSel=document.getElementById('sBranch');
+  brSel.innerHTML='<option value="">-- ทุกสาขา --</option>'+BRANCHES.map(b=>`<option value="${b}" ${s&&s.branch===b?'selected':''}>${b}</option>`).join('');
+  const prev=document.getElementById('avatarPreview');
+  const upload=document.getElementById('avatarUpload');
+  if(s&&s.photo){
+    prev.innerHTML=`<img src="${s.photo}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+  } else {
+    prev.innerHTML='📷<br><span style="font-size:10px;">อัปโหลดรูป</span>';
+  }
+  document.getElementById('avatarInput').value='';
+  openOverlay('staffOverlay');
+}
+
+function previewAvatar(input){
+  const file=input.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    tempAvatarData=e.target.result;
+    document.getElementById('avatarPreview').innerHTML=`<img src="${tempAvatarData}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function saveStaff(){
+  const name=document.getElementById('sName').value.trim();
+  if(!name){alert('กรุณาระบุชื่อพนักงาน');return;}
+  const existing=editingStaffId?staff.find(x=>x.id===editingStaffId):null;
+  const obj={
+    id:editingStaffId||nextStaffId++,
+    name,
+    role:document.getElementById('sRole').value.trim(),
+    tel:document.getElementById('sTel').value.trim(),
+    branch:document.getElementById('sBranch').value,
+    photo:tempAvatarData||(existing?existing.photo:''),
+  };
+  if(editingStaffId){const i=staff.findIndex(x=>x.id===editingStaffId);staff[i]=obj;}
+  else staff.push(obj);
+  closeOverlay('staffOverlay');
+  renderStaff();
+  showLoading('💾 กำลังบันทึก...');
+  await apiSave('staff',obj);
+  hideLoading();
+}
+
+async function deleteStaff(){
+  if(!confirm('ต้องการลบพนักงานนี้?')) return;
+  const delId=editingStaffId;
+  staff=staff.filter(x=>x.id!==delId);
+  closeOverlay('staffOverlay');
+  renderStaff();
+  showLoading('🗑 กำลังลบ...');
+  await apiDelete('staff',delId);
+  hideLoading();
+}
+
+// ===== BRANCH PAGE =====
+function renderBranchPage(){
+  const tabs=document.getElementById('branchPageTabs');
+  const contents=document.getElementById('branchPageContents');
+  if(!tabs||!contents) return;
+  tabs.innerHTML=BRANCHES.map((b,i)=>`<button class="branch-page-tab ${i===0?'active':''}" onclick="switchBranchPage('${b}',this)">${BRANCH_ICONS[b]} สาขา${b}</button>`).join('');
+  contents.innerHTML=BRANCHES.map((b,i)=>{
+    const bStaff=staff.filter(s=>s.branch===b);
+    const bTasks=tasks.filter(t=>t.branch===b);
+    const done=bTasks.filter(t=>t.status==='done').length;
+    const pct=bTasks.length?Math.round(done/bTasks.length*100):0;
+    return `<div class="branch-content ${i===0?'active':''}" id="branch-${b}">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+        <div class="stat-box" style="text-align:left;">
+          <div style="font-size:13px;font-weight:600;color:var(--green-dark);margin-bottom:10px;">${BRANCH_ICONS[b]} สาขา${b}</div>
+          ${statsHTML(getTaskStats(b))}
+        </div>
+        <div class="stat-box" style="text-align:left;">
+          <div style="font-size:13px;font-weight:600;color:var(--green-dark);margin-bottom:10px;">📊 ความคืบหน้างาน</div>
+          <div style="font-size:28px;font-weight:700;color:var(--green-main);">${pct}%</div>
+          <div class="progress-wrap" style="margin-top:8px;"><div class="progress-bar" style="width:${pct}%"></div></div>
+          <div style="font-size:12px;color:var(--gray-400);margin-top:6px;">เสร็จ ${done} จาก ${bTasks.length} งาน</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <div class="section-title" style="font-size:14px;">👥 ทีมงานสาขา${b}</div>
+        ${bStaff.length===0?'<div style="color:var(--gray-400);font-size:13px;">ยังไม่มีพนักงานในสาขานี้</div>'
+        :`<div style="display:flex;flex-wrap:wrap;gap:12px;">
+          ${bStaff.map(s=>`<div style="display:flex;align-items:center;gap:10px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;padding:10px 14px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:var(--green-pale);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--green-main);overflow:hidden;flex-shrink:0;">
+              ${s.photo?`<img src="${s.photo}" style="width:100%;height:100%;object-fit:cover;">`:s.name[0]}
+            </div>
+            <div><div style="font-size:13px;font-weight:600;">${s.name}</div><div style="font-size:11px;color:var(--gray-400);">${s.role||''}</div></div>
+          </div>`).join('')}
+        </div>`}
+      </div>
+
+      <div>
+        <div class="section-title" style="font-size:14px;">📋 งานสาขา${b}</div>
+        ${bTasks.length===0?'<div style="color:var(--gray-400);font-size:13px;">ยังไม่มีงานในสาขานี้</div>'
+        :`<table class="task-table"><thead><tr><th>ชื่องาน</th><th>ผู้รับผิดชอบ</th><th>กำหนดส่ง</th><th>สถานะ</th></tr></thead><tbody>
+          ${bTasks.map(t=>{
+            const aName=(staff.find(s=>s.id===t.assign)||{name:'-'}).name.split('(')[0].trim();
+            const dueStr=t.due?new Date(t.due).toLocaleDateString('th-TH',{day:'numeric',month:'short'}):'';
+            return `<tr class="${t.status==='done'?'done':''}"><td>${t.name}</td><td>${aName}</td><td>${dueStr}</td><td><span class="badge ${STATUS_CLASS[t.status]}">${STATUS_LABEL[t.status]}</span></td></tr>`;
+          }).join('')}
+        </tbody></table>`}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function switchBranchPage(b,btn){
+  document.querySelectorAll('.branch-page-tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.branch-content').forEach(x=>x.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const c=document.getElementById('branch-'+b);
+  if(c) c.classList.add('active');
+}
+
+// ===== SHEETS =====
+function renderSheets(gridId,limit){
+  const grid=document.getElementById(gridId);
+  if(!grid) return;
+  const list=limit?sheets.slice(0,limit):sheets;
+  grid.innerHTML=list.map(s=>`
+    <div class="sheet-card" onclick="${s.url?`openLink('${s.url}')`:`editSheet(${s.id})`}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div class="sheet-icon">${s.icon}</div>
+        ${gridId==='sheetsGrid'?`<button onclick="event.stopPropagation();editSheet(${s.id})" style="background:none;border:none;cursor:pointer;font-size:13px;color:var(--gray-400);padding:2px 5px;border-radius:4px;" title="แก้ไข">✏️</button>`:''}
+      </div>
+      <div class="sheet-name">${s.name}</div>
+      <div class="sheet-desc">${s.desc}</div>
+      <div class="sheet-link-btn">${s.url?'🟢 เปิดไฟล์ ↗':'⚪ ตั้งค่าลิงก์'}</div>
+    </div>`).join('');
+}
+
+function openLink(url){window.open(url,'_blank');}
+
+function addSheet(){
+  editingSheetId=null;
+  document.getElementById('sheetModalTitle').textContent='เพิ่มไฟล์งานใหม่';
+  document.getElementById('sheetDeleteBtn').style.display='none';
+  document.getElementById('shName').value='';
+  document.getElementById('shUrl').value='';
+  document.getElementById('shDesc').value='';
+  openOverlay('sheetOverlay');
+}
+
+function editSheet(id){
+  editingSheetId=id;
+  const s=sheets.find(x=>x.id===id);
+  document.getElementById('sheetModalTitle').textContent='แก้ไขไฟล์: '+s.name;
+  document.getElementById('sheetDeleteBtn').style.display='';
+  document.getElementById('shName').value=s.name;
+  document.getElementById('shUrl').value=s.url||'';
+  document.getElementById('shDesc').value=s.desc||'';
+  openOverlay('sheetOverlay');
+}
+
+async function saveSheet(){
+  const name=document.getElementById('shName').value.trim();
+  if(!name){alert('กรุณาระบุชื่อไฟล์');return;}
+  const obj={id:editingSheetId||nextSheetId++,name,url:document.getElementById('shUrl').value.trim(),desc:document.getElementById('shDesc').value.trim(),icon:'📄'};
+  if(editingSheetId){const i=sheets.findIndex(x=>x.id===editingSheetId);sheets[i]=obj;}
+  else sheets.push(obj);
+  closeOverlay('sheetOverlay');
+  renderSheets('sheetsGrid');
+  renderSheets('sheetsGridHome',3);
+  showLoading('💾 กำลังบันทึก...');
+  await apiSave('sheets',obj);
+  hideLoading();
+}
+
+async function deleteSheet(){
+  if(!confirm('ต้องการลบไฟล์นี้?')) return;
+  const delId=editingSheetId;
+  sheets=sheets.filter(x=>x.id!==delId);
+  closeOverlay('sheetOverlay');
+  renderSheets('sheetsGrid');
+  showLoading('🗑 กำลังลบ...');
+  await apiDelete('sheets',delId);
+  hideLoading();
+}
+
+// ===== OVERLAY HELPERS =====
+function openOverlay(id){document.getElementById(id).classList.add('open');}
+function closeOverlay(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.overlay').forEach(o=>{
+  o.addEventListener('click',e=>{if(e.target===o) o.classList.remove('open');});
+});
+
+// ===== INIT =====
+loadAllData();
+</script>
+</body>
+</html>
